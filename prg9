@@ -1,0 +1,30 @@
+# Import necessary libraries
+from sklearn.datasets import fetch_olivetti_faces
+# Step 1: Load Olivetti Faces Dataset
+faces = fetch_olivetti_faces()
+X = faces.data  # Flattened images (n_samples, n_features)
+y = faces.target  # Labels (person id)
+from sklearn.model_selection import train_test_split
+# Step 2: Split into Train and Test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+from sklearn.naive_bayes import GaussianNB
+# Step 3: Initialize the Naive Bayes classifier
+gnb = GaussianNB()
+# Step 4: Train the classifier
+gnb.fit(X_train, y_train)
+# Step 5: Predict on Test set
+y_pred = gnb.predict(X_test)
+from sklearn.metrics import accuracy_score
+# Step 6: Compute Accuracy
+accuracy = accuracy_score(y_test, y_pred)
+
+print(f"Accuracy of Naive Bayes Classifier on Olivetti Faces Dataset: {accuracy * 100:.2f}%")
+import matplotlib.pyplot as plt
+# Display a few test images with predicted labels
+n_samples = 10
+plt.figure(figsize=(60, 10))
+for i in range(n_samples):
+    ax = plt.subplot(1, n_samples, i + 1)
+    ax.imshow(X_test[i].reshape(64, 64), cmap='gray')
+    ax.set_title(f"Pred: {y_pred[i]}\nTrue: {y_test[i]}")
+plt.show()
