@@ -1,0 +1,23 @@
+import pandas as pd
+import numpy as np
+df=pd.read_csv("joboffer.csv")
+df
+features=np.array(df)[:,:-1]
+target=np.array(df)[:,-1]
+#print(target)
+#print(features)
+
+for i,val in enumerate(target):
+    if val=='yes':
+        hypothesis=features[i]
+        break
+print("first hypothesis")
+print(hypothesis)
+
+for i,val in enumerate(features):
+    if target[i]=='yes':
+        for x in range (len(hypothesis)):
+            if val[x]!=hypothesis[x]:
+                hypothesis[x]='?'
+print("final hypothesis")
+print(hypothesis)
