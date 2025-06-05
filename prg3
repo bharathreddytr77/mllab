@@ -1,0 +1,30 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn import datasets
+iris=datasets.load_iris()
+#print(iris.keys())
+df=pd.DataFrame(iris['data'],columns=iris['feature_names'])
+df
+from sklearn.preprocessing import StandardScaler
+scalar=StandardScaler()
+scalar.fit(df)
+scaled_data=scalar.transform(df)
+#print(scaled_data)
+from sklearn.decomposition import PCA
+pca=PCA(n_components=2)
+pca.fit(scaled_data)
+print("variance_value",pca.explained_variance_ratio_)
+x_pca=pca.transform(scaled_data)
+x_pca.shape
+x_pca
+plt.figure(figsize=(10,9))
+y=iris.target
+target_names=iris.target_names
+for i,target_name in enumerate (target_names):
+    plt.scatter(x_pca[y==i,0],x_pca[y==i,1],label=target_name)
+plt.xlabel("first principal component")
+plt.ylabel("second principal component")
+plt.title("principal component analysis")
+plt.legend()
+plt.show()
